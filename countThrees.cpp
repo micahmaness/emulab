@@ -5,6 +5,7 @@
 #include <thread>
 #include <iostream>
 #include <fstream>
+#include <chrono>
 using namespace std;
 
 string get_file_contents(string file) {
@@ -14,8 +15,8 @@ string get_file_contents(string file) {
 }
 
 const string CONTENTS = get_file_contents("nums.txt");
-const int CORES = 4;
-int count = 0;
+const int CORES = 8;
+int totalCount = 0;
 
 int get_thread_partition_size(string numbers) {
     return numbers.length() / CORES;
@@ -36,6 +37,7 @@ int count3s(int id) {
 }
     
 int main() {
+    auto startTime = high_resolution_clock::now();
     thread threads[CORES];
     int totCount = 0;
     for (int i = 0; i < CORES; ++i) {
@@ -43,8 +45,12 @@ int main() {
     }
     
     for (int threadNum = 0; threadNum < CORES; ++threadNum) {
-        threads[threadNum].join;
+        threads[threadNum].join();
     }
-    cout << totCount << endl;
+    auto endTime = high_resolution_count::now();
+    auto runTime = duration_cast<microseconds>(endTime - startTime);
+    
+    cout << "Number of 3s: " << totalCount << endl;
+    cout << "Run time: " << runTime.count() << " microseconds" << endl;
     return EXIT_SUCCESS;
 }
